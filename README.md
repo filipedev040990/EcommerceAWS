@@ -1,5 +1,5 @@
 # AWS Serverless com TypeScript e AWS Cloud Development Kit
-## O que é demonstrado no curso
+## Habilidades aprendidas com o projeto
 
 <ul>
     <li>Construir aplicações serverless com funções do AWS Lambda, em TypeScript e NodeJS, com tabelas do DynamoDB, tópicos do SNS e muito mais;</li>
