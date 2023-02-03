@@ -6,7 +6,7 @@ import { ECommerceApiStack, ProductsAppStack } from '../lib'
 const app = new cdk.App()
 
 const env: cdk.Environment = {
-  account: '029521634694',
+  account: '421712698220',
   region: 'us-east-1'
 }
 

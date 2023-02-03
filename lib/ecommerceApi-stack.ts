@@ -12,13 +12,13 @@ export class ECommerceApiStack extends cdk.Stack {
   constructor (scope: Construct, id: string, props: ECommerceApiStackProps) {
     super(scope, id, props)
 
-    const logGrpup = new cwlogs.LogGroup(this, 'ECommerceLogs')
+    const logGrpup = new cwlogs.LogGroup(this, 'ECommerceApiLogs')
 
     const api = new apiGateway.RestApi(
       this,
-      'ECommerApi',
+      'ECommerceApi',
       {
-        restApiName: 'ECommerApi',
+        restApiName: 'ECommerceApi',
         cloudWatchRole: true,
         deployOptions: {
           accessLogDestination: new apiGateway.LogGroupLogDestination(logGrpup),
@@ -39,6 +39,7 @@ export class ECommerceApiStack extends cdk.Stack {
     const productsFetchIntegration = new apiGateway.LambdaIntegration(props.productsFetchHandler)
 
     const productsResource = api.root.addResource('products')
+
     productsResource.addMethod('GET', productsFetchIntegration)
   }
 }
