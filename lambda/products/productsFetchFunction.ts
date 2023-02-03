@@ -18,6 +18,17 @@ export const handler = async (event: APIGatewayProxyEvent, context: Context): Pr
     }
   }
 
+  if (resource === '/products/{id}') {
+    const productId = event.pathParameters?.id as string
+
+    console.log(`GET /products/${productId}`)
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ message: `GET /products/${productId}` })
+    }
+  }
+
   return {
     statusCode: 400,
     body: JSON.stringify({ message: 'Bad request' })
