@@ -5,6 +5,7 @@ import * as dynamodb from 'aws-cdk-lib/aws-dynamodb'
 
 export class ProductsAppStack extends cdk.Stack {
   readonly productsFetchHandler: lambdaNodeJS.NodejsFunction
+  readonly productsAdminHandler: lambdaNodeJS.NodejsFunction
   readonly productsDdb: dynamodb.Table
 
   constructor (scope: Construct, id: string, props: cdk.StackProps) {
@@ -22,12 +23,23 @@ export class ProductsAppStack extends cdk.Stack {
       writeCapacity: 1
     })
 
-    this.productsFetchHandler = new lambdaNodeJS.NodejsFunction(
+    this.productsFetchHandler = this.makeDefaultStack('productsFetchHandler')
+    this.productsDdb.grantReadData(this.productsFetchHandler)
+
+    this.productsAdminHandler = this.makeDefaultStack('productsAdminHandler')
+    this.productsDdb.grantWriteData(this.productsAdminHandler)
+  }
+
+  makeDefaultStack = (name: string): lambdaNodeJS.NodejsFunction => {
+    const stackName = this.firstLetterUpper(name)
+    const fileName = this.camelize(name)
+
+    return new lambdaNodeJS.NodejsFunction(
       this,
-      'ProductsFetchHandler',
+      stackName,
       {
-        functionName: 'ProductsFetchHandler',
-        entry: 'lambda/products/productsFetchFunction.ts',
+        functionName: stackName,
+        entry: `lambda/products/${fileName}.ts`,
         handler: 'handler',
         memorySize: 128,
         timeout: cdk.Duration.seconds(5),
@@ -40,7 +52,15 @@ export class ProductsAppStack extends cdk.Stack {
         }
       }
     )
+  }
 
-    this.productsDdb.grantReadData(this.productsFetchHandler)
+  camelize = (str: string): string => {
+    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+      return index === 0 ? word.toLowerCase() : word.toUpperCase()
+    }).replace(/\s+/g, '')
+  }
+
+  firstLetterUpper = (str: string): string => {
+    return str[0].toUpperCase() + str.substring(1)
   }
 }

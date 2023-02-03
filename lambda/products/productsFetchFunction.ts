@@ -11,7 +11,6 @@ export const handler = async (event: APIGatewayProxyEvent, context: Context): Pr
 
   if (resource === '/products') {
     if (method === 'GET') {
-      console.log('GET')
       return {
         statusCode: 200,
         body: JSON.stringify({ message: 'GET Products - ok' })
