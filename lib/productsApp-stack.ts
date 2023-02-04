@@ -27,7 +27,7 @@ export class ProductsAppStack extends cdk.Stack {
       this,
       'ProductsFetchHandler',
       {
-        functionName: 'ProductsFetchHandler',
+        functionName: 'ProductsFetchFunction',
         entry: 'lambda/products/productsFetchFunction.ts',
         handler: 'handler',
         memorySize: 128,
@@ -47,7 +47,7 @@ export class ProductsAppStack extends cdk.Stack {
       this,
       'ProductsAdminHandler',
       {
-        functionName: 'ProductsAdminHandler',
+        functionName: 'ProductsAdminFunction',
         entry: 'lambda/products/productsAdminFunction.ts',
         handler: 'handler',
         memorySize: 128,
