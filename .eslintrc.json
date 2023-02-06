@@ -9,6 +9,8 @@
         "@typescript-eslint/no-misused-promises": "off",
         "@typescript-eslint/consistent-type-definitions": "off",
         "@typescript-eslint/no-useless-constructor": "off",
-        "@typescript-eslint/consistent-type-imports": "off"
+        "@typescript-eslint/consistent-type-imports": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "import/no-absolute-path": "off"
     }
 }
