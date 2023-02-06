@@ -55,4 +55,27 @@ export class ProductRepository {
       }
     }).promise()
   }
+
+  async update (productId: string, product: Product): Promise<Product> {
+    const data = await this.ddbClient.update({
+      TableName: this.productsDdb,
+      Key: {
+        id: productId
+      },
+      ConditionExpression: 'attibute_exists(id)',
+      ReturnValues: 'UPDATED_NEW',
+      UpdateExpression: 'set productName = productName, code = code, price = price, model = model',
+      ExpressionAttributeValues: {
+        productName: product.productName,
+        code: product.code,
+        price: product.price,
+        model: product.model
+      }
+    }).promise()
+
+    if (data.Attributes?.id) {
+      data.Attributes.id = productId
+    }
+    return data.Attributes as Product
+  }
 }
