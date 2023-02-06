@@ -1,4 +1,5 @@
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'
+import { v4 as uuid } from 'uuid'
 
 export type Product = {
   id: string
@@ -34,5 +35,15 @@ export class ProductRepository {
     }
 
     return product.Item as Product
+  }
+
+  async create (product: Product): Promise<Product> {
+    product.id = uuid()
+    await this.ddbClient.put({
+      TableName: this.productsDdb,
+      Item: product
+    }).promise()
+
+    return product
   }
 }
