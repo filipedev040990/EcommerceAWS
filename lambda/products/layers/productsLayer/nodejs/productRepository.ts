@@ -20,4 +20,19 @@ export class ProductRepository {
 
     return products.Items as Product []
   }
+
+  async getById (productId: string): Promise<Product> {
+    const product = await this.ddbClient.get({
+      TableName: this.productsDdb,
+      Key: {
+        id: productId
+      }
+    }).promise()
+
+    if (!product.Item) {
+      throw new Error('Product not found')
+    }
+
+    return product.Item as Product
+  }
 }
