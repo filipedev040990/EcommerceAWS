@@ -46,4 +46,13 @@ export class ProductRepository {
 
     return product
   }
+
+  async delete (productId: string): Promise<void> {
+    await this.ddbClient.delete({
+      TableName: this.productsDdb,
+      Key: {
+        id: productId
+      }
+    }).promise()
+  }
 }
