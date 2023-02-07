@@ -7,6 +7,11 @@ const ddbClient = new DynamoDB.DocumentClient()
 const productRepository = new ProductRepository(ddbClient, productsDdb)
 
 export const handler = async (event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> => {
+  const lambdaRequestId = context.awsRequestId
+  const apiRequestId = event.requestContext.requestId
+
+  console.log(`API Gateway RequestId: ${apiRequestId} - LambdaRequestId: ${lambdaRequestId}`)
+
   const method = event.httpMethod
   const resource = event.resource
 
@@ -22,7 +27,7 @@ export const handler = async (event: APIGatewayProxyEvent, context: Context): Pr
   }
 
   if (resource === '/products/{id}') {
-    const productId = event.pathParameters?.id as string
+    const productId = event.pathParameters!.id as string
     try {
       const product = await productRepository.getById(productId)
 

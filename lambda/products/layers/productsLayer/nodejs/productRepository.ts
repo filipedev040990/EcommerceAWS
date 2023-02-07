@@ -73,9 +73,7 @@ export class ProductRepository {
       }
     }).promise()
 
-    if (data.Attributes?.id) {
-      data.Attributes.id = productId
-    }
+    data.Attributes!.id = productId
     return data.Attributes as Product
   }
 }
